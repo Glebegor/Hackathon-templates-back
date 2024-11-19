@@ -1,0 +1,12 @@
+
+
+SERVER:
+  PORT: 3000
+  HOST: localhost
+
+DB:
+  HOST: localhost
+  PORT: 5432
+  NAME: go-back
+  USER: postgres
+  SSLMODE: disable
