@@ -7,9 +7,12 @@ type Logger struct {
 }
 
 func NewLogger(env *Env) (*Logger, error) {
-	logrus.SetFormatter(&logrus.JSONFormatter{})
 
 	logger := Logger{}
 
 	return &logger, nil
+}
+
+func (l *Logger) ToLogFile(message string) {
+	logrus.Info(message)
 }

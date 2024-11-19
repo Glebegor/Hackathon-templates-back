@@ -1,6 +1,7 @@
 package main
 
 import (
+	"project-hackathon/api/routers"
 	"project-hackathon/bootstrap"
 	"time"
 
@@ -10,6 +11,7 @@ import (
 )
 
 func main() {
+	logrus.SetFormatter(&logrus.JSONFormatter{})
 
 	app, err := bootstrap.App()
 	if err != nil {
@@ -22,4 +24,6 @@ func main() {
 
 	gin := gin.Default()
 	timeout := time.Duration(5) * time.Second
+
+	routers.SetupRouter(env, db, logger, timeout, gin)
 }
