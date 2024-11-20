@@ -9,6 +9,8 @@
 - go
 - yq
 
+add logs.txt to path ```./logs/logs.txt```
+
 ## How to run
 
 ### Manual
