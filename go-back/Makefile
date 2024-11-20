@@ -13,8 +13,6 @@ DB_NAME := $(shell yq '.DB.NAME' config.yml)
 DB_PASSWORD := $(shell grep 'SERVER_SECRET' .env | sed 's/SERVER_SECRET=//')
 
 
-
-
 build:
 run:
 build-run:

@@ -6,9 +6,30 @@
 
 ### Manual
 
+This commands can provide to you manual run of the application.
+
+```bash
+make test-db-run
+
+make migrate-up
+
+go run cmd/main.go
+```
+
 ### Docker
 
 
+## Makefile
+
+build:
+run:
+build-run:
+test-db-run:
+test-db-rm:
+migrate-up:
+migrate-down:
+open-logs:
+docker-containers-remove:
 
 ## Database
 
