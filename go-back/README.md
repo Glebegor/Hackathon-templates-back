@@ -2,6 +2,14 @@
 
 ## Description
 
+## How to run
+
+### Manual
+
+### Docker
+
+
+
 ## Database
 
 Using Basic and needble presets for database structure
@@ -18,7 +26,6 @@ CREATE TABLE users (
     password_hash VARCHAR(1000) NOT NULL,
 );
 ```
-
 
 ## Config
 
