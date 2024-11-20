@@ -2,6 +2,13 @@
 
 ## Description
 
+## Requirements
+
+- makefile
+- docker
+- go
+- yq
+
 ## How to run
 
 ### Manual
@@ -36,6 +43,7 @@ docker-containers-remove:
 Using Basic and needble presets for database structure
 
 ### Users
+
 basic table of users:
 
 ```sql
@@ -60,6 +68,8 @@ DB_PASSWORD="123321"
 config.yml
 
 ```yml
+Environment: "dev" # dev, release, test
+
 SERVER:
   PORT: 3000
   HOST: localhost
@@ -71,3 +81,5 @@ DB:
   USER: postgres
   SSLMODE: disable
 ```
+
+On config dependence WHOLE application, soo, be carefull.

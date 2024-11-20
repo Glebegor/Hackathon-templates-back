@@ -44,4 +44,6 @@ func SetupRouter(env *bootstrap.Env, db *sqlx.DB, timeout time.Duration, gin *gi
 	router.Use(middlewares.RequestLoggingMiddleware(logger))
 
 	router.POST("/ping", Ping)
+
+	NewRouterAuth(env, timeout, db, router)
 }
