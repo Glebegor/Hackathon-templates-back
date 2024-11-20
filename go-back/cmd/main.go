@@ -20,10 +20,13 @@ func main() {
 
 	env := app.Env
 	db := app.Database
-	logger := app.Logger
 
+	if env.ENV_TYPE == "development" {
+		gin.SetMode(gin.DebugMode)
+	}
 	gin := gin.Default()
 	timeout := time.Duration(5) * time.Second
 
-	routers.SetupRouter(env, db, logger, timeout, gin)
+	routers.SetupRouter(env, db, timeout, gin)
+	gin.Run(env.SERVER_HOST + ":" + env.SERVER_PORT)
 }

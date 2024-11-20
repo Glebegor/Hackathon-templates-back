@@ -7,7 +7,6 @@ import (
 type Application struct {
 	Env      *Env
 	Database *sqlx.DB
-	Logger   *Logger
 }
 
 func App() (*Application, error) {
@@ -27,14 +26,6 @@ func App() (*Application, error) {
 		return app, err
 	} else {
 		app.Database = db
-	}
-
-	logger, err := NewLogger(env)
-
-	if err != nil {
-		return app, err
-	} else {
-		app.Logger = logger
 	}
 
 	return app, nil

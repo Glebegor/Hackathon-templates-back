@@ -16,8 +16,12 @@ build-run:
 test-db-run:
 	docker run --name="test-db-hackathon-project" -e POSTGRES_PASSWORD="123321" -d --rm -p 5436:5432 postgres
 test-db-rm:
+	docker stop test-db-hackathon-project
 
 migrate-up:
 migrate-down:
+
+open-logs:
+	cat ./logs/logs.txt
 
 docker-containers-remove:
