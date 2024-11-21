@@ -53,3 +53,4 @@ open-logs:
 	cat ./logs/logs.txt
 
 docker-cluster-run:
+docker-cluster-stop:

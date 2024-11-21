@@ -37,6 +37,26 @@ go run cmd/main.go
 
 ### Docker
 
+If you want build image of the go app, then run:
+
+```bash
+make build
+```
+
+If you want run an image, use:
+
+```bash
+make run
+```
+
+If you want to build and run you can run:
+
+```bash
+make build-run
+```
+
+
+
 ### Cluster
 
 ## Makefile
