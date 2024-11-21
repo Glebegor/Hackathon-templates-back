@@ -36,5 +36,5 @@ type JWTClaims struct {
 	Email string `json:"email" db:"email"`
 	Name  string `json:"name" db:"name"`
 	Id    int    `json:"id" db:"id"`
-	exp   int64  `json:"exp"`
+	Exp   int64  `json:"exp"`
 }

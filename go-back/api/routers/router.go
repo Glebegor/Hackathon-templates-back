@@ -36,6 +36,12 @@ func Ping(c *gin.Context) {
 	})
 }
 
+func ProtectedPing(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "protected pong",
+	})
+}
+
 func SetupRouter(env *bootstrap.Env, db *sqlx.DB, timeout time.Duration, gin *gin.Engine) {
 	gin.Use(CORS())
 	router := gin.Group("/api/v2/")
@@ -43,7 +49,10 @@ func SetupRouter(env *bootstrap.Env, db *sqlx.DB, timeout time.Duration, gin *gi
 	logger := InitLogger()
 	router.Use(middlewares.RequestLoggingMiddleware(logger))
 
+	// Test pings
 	router.POST("/ping", Ping)
+	router.POST("/pingProtected", middlewares.JWTIndentification, ProtectedPing)
 
+	// Routers
 	NewRouterAuth(env, timeout, db, router)
 }
