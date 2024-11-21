@@ -30,4 +30,4 @@ migrate-down:
 open-logs:
 	cat ./logs/logs.txt
 
-docker-containers-remove:
+docker-cluster:

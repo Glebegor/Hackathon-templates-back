@@ -30,19 +30,20 @@ go run cmd/main.go
 
 ## Makefile
 
-build:
-run:
-build-run:
-test-db-run:
-test-db-rm:
-migrate-up:
-migrate-down:
-open-logs:
-docker-containers-remove:
+- build: docker build
+- run: docker run
+- build-run: docker build and run
+- test-db-run: runs creation of db
+- test-db-rm: runs deletion of db
+- migrate-up: creates migrations
+- migrate-down: deletes migrations
+- open-logs: showing logs
+- docker-cluster-run: runs docker cluster
+- docker-cluster-stop: stops docker cluster
 
 ## Database
 
-Using Basic and needble presets for database structure
+Using Basic and needble presets for database structure.
 
 ### Users
 
@@ -51,10 +52,9 @@ basic table of users:
 ```sql
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    email VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    password_hash VARCHAR(1000) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(1000) NOT NULL
 );
 ```
 
@@ -85,3 +85,22 @@ DB:
 ```
 
 On config dependence WHOLE application, soo, be carefull.
+
+## Routers
+Init routes to work with project.
+
+### Auth
+
+#### Login
+Create user.
+
+#### Register
+Register user.
+
+### Checking
+
+#### Ping
+Send request to check api.
+
+#### Ping protected
+Send request with header Authorization and "Bearer qwlej..." value to check protected routes.
