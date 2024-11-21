@@ -133,6 +133,9 @@ Create user.
 #### Register
 Register user.
 
+#### Refresher
+Refreshing tokens.
+
 ### Checking
 
 #### Ping

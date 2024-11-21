@@ -10,6 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
+	swaggerFiles "github.com/swaggo/files"     // swagger embed files
+	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 )
 
 func InitLogger() *logrus.Logger {
@@ -55,6 +57,10 @@ func SetupRouter(env *bootstrap.Env, db *sqlx.DB, timeout time.Duration, gin *gi
 	// Test pings
 	router.POST("/ping", Ping)
 	router.POST("/pingProtected", middlewares.JwtAuthMiddleware(env.SERVER_SECRET), ProtectedPing)
+
+	if env.ENV_TYPE == "dev" {
+		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	// Routers
 	NewRouterAuth(env, timeout, db, router)

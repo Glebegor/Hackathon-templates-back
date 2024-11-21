@@ -16,28 +16,30 @@ DB_SSLMODE := $(shell yq '.DB.SSLMODE' config.yml)
 DB_NAME := $(shell yq '.DB.NAME' config.yml)
 DB_PASSWORD := $(shell grep 'SERVER_SECRET' .env | sed 's/SERVER_SECRET=//')
 
-# Commands
+# Utils
 wait-db-ready:
 	@until pg_isready -h $(DB_HOST) -p $(DB_PORT) -U $(DB_NAME); do \
 		echo "Waiting for PostgreSQL to be ready..."; \
 		sleep 2; \
 	done
 
+# Database
 db-run:
-	docker run --name=$(DB_NAME) --network $(PROJECT_DOCKER_NETWORK) -e POSTGRES_PASSWORD=$(DB_PASSWORD) -d --rm -p $(DB_PORT):5432 postgres
+	docker run --name=$(DB_NAME) --network $(PROJECT_DOCKER_NETWORK) -e POSTGRES_PASSWORD=$(DB_PASSWORD) -d --rm -p $(DB_PORT):5432 postgres:latest
 db-rm:
 	docker stop $(DB_NAME)
 
+# Migrate
 migrate-up:
 	migrate -path ./schemas -database "postgres://$(DB_NAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_USER)?sslmode=$(DB_SSLMODE)" up
 migrate-down:
 	migrate -path ./schemas -database "postgres://$(DB_NAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_USER)?sslmode=$(DB_SSLMODE)" down
 
+# Run docker
 build:
-	docker pull postgres:latest
 	docker image rm -f $(PROJECT_NAME) || true
 	docker build -t $(PROJECT_NAME) .
-run:
+run-d:
 	docker network inspect $(PROJECT_DOCKER_NETWORK) >/dev/null 2>&1 || docker network create $(PROJECT_DOCKER_NETWORK)
 	make db-run || true
 	
@@ -46,15 +48,31 @@ run:
 
 	docker rm -f $(PROJECT_NAME) || true	
 	docker run --name=$(PROJECT_NAME) -e GO_CONTAINER="docker" --network $(PROJECT_DOCKER_NETWORK) -d --rm -p $(SERVER_DOCKER_PORT):$(SERVER_PORT) $(PROJECT_NAME)
+run:
+	docker network inspect $(PROJECT_DOCKER_NETWORK) >/dev/null 2>&1 || docker network create $(PROJECT_DOCKER_NETWORK)
+	make db-run || true
+	
+	make wait-db-ready
+	make migrate-up
+
+	docker rm -f $(PROJECT_NAME) || true	
+	docker run --name=$(PROJECT_NAME) -e GO_CONTAINER="docker" --network $(PROJECT_DOCKER_NETWORK) --rm -p $(SERVER_DOCKER_PORT):$(SERVER_PORT) $(PROJECT_NAME)
 build-run:
 	make build
 	make run
+build-run-d:
+	make build
+	make run-d
 stop:
 	docker rm -f $(PROJECT_NAME) || true
 	make db-rm || true
 
+# Run cluster
+docker-cluster-run:
+docker-cluster-stop:
+
+# help commands
 open-logs:
 	cat ./logs/logs.txt
 
-docker-cluster-run:
-docker-cluster-stop:
+
