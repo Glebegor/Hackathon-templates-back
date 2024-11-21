@@ -24,7 +24,6 @@ wait-db-ready:
 	done
 
 db-run:
-	docker rm -f $(DB_NAME) || true
 	docker run --name=$(DB_NAME) --network $(PROJECT_DOCKER_NETWORK) -e POSTGRES_PASSWORD=$(DB_PASSWORD) -d --rm -p $(DB_PORT):5432 postgres
 db-rm:
 	docker stop $(DB_NAME)
@@ -35,6 +34,7 @@ migrate-down:
 	migrate -path ./schemas -database "postgres://$(DB_NAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_USER)?sslmode=$(DB_SSLMODE)" down
 
 build:
+	docker image rm -f $(PROJECT_NAME) || true
 	docker build -t $(PROJECT_NAME) .
 run:
 	docker network inspect $(PROJECT_DOCKER_NETWORK) >/dev/null 2>&1 || docker network create $(PROJECT_DOCKER_NETWORK)
@@ -44,14 +44,13 @@ run:
 	make migrate-up
 
 	docker rm -f $(PROJECT_NAME) || true	
-	docker run --name=$(PROJECT_NAME) -e GO_CONTAINER="docker" --network $(PROJECT_DOCKER_NETWORK) -d --rm -p $(SERVER_DOCKER_PORT):$(SERVER_PORT) $(PROJECT_NAME)
+	docker run --name=$(PROJECT_NAME) -e GO_CONTAINER="docker" --network $(PROJECT_DOCKER_NETWORK) --rm -p $(SERVER_DOCKER_PORT):$(SERVER_PORT) $(PROJECT_NAME)
 build-run:
 	make build
 	make run
 stop:
 	docker rm -f $(PROJECT_NAME) || true
 	make db-rm || true
-
 
 open-logs:
 	cat ./logs/logs.txt

@@ -1,18 +1,21 @@
 package controllers
 
 import (
+	"project-hackathon/bootstrap"
 	"project-hackathon/core/common"
 	"project-hackathon/core/responses"
+	"project-hackathon/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 type ControllerAuth struct {
 	service common.ServiceAuth
+	env     *bootstrap.Env
 }
 
-func NewControllerAuth(service common.ServiceAuth) common.ControllerAuth {
-	return &ControllerAuth{service}
+func NewControllerAuth(service common.ServiceAuth, env *bootstrap.Env) common.ControllerAuth {
+	return &ControllerAuth{service, env}
 }
 
 func (c *ControllerAuth) Register(ctx *gin.Context) {
@@ -40,11 +43,21 @@ func (c *ControllerAuth) Login(ctx *gin.Context) {
 		return
 	}
 
-	token, err := c.service.Login(&input)
+	password_hash := utils.HashPassword(input.Password, c.env.SERVER_SECRET)
+
+	user, err := c.service.CheckUserByEmailAndPassword(&common.UserLogin{Email: input.Email, Password: password_hash})
 	if err != nil {
 		ctx.JSON(400, responses.ErrorResponse{Message: err.Error(), Status: 400})
 		return
 	}
+	user.Password = utils.HashPassword(user.Password, c.env.SERVER_SECRET)
+	accessToken, err := utils.CreateAccessToken(user, c.env.SERVER_SECRET)
+	refreshToken, err := utils.CreateRefreshToken(user, c.env.SERVER_SECRET)
 
-	ctx.JSON(200, responses.SuccessResponse{Message: "User logged in successfully", Status: 200, Data: map[string]interface{}{"token": token}})
+	ctx.JSON(200, responses.SuccessResponse{Message: "User logged in successfully", Status: 200, Data: gin.H{"access_token": accessToken, "refresh_token": refreshToken}})
+	return
+}
+
+func (c *ControllerAuth) Refresh(ctx *gin.Context) {
+
 }

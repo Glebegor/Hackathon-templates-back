@@ -8,7 +8,7 @@ import (
 
 type ServiceAuth interface {
 	Register(user *UserRegister) error
-	Login(user *UserLogin) (string, error)
+	CheckUserByEmailAndPassword(user *UserLogin) (domain.User, error)
 }
 
 type RepositoryAuth interface {
@@ -19,6 +19,7 @@ type RepositoryAuth interface {
 type ControllerAuth interface {
 	Register(ctx *gin.Context)
 	Login(ctx *gin.Context)
+	Refresh(ctx *gin.Context)
 }
 
 type UserRegister struct {
@@ -30,11 +31,4 @@ type UserRegister struct {
 type UserLogin struct {
 	Email    string `json:"email" binding:"required" db:"email"`
 	Password string `json:"password" binding:"required" db:"password_hash"`
-}
-
-type JWTClaims struct {
-	Email string `json:"email" db:"email"`
-	Name  string `json:"name" db:"name"`
-	Id    int    `json:"id" db:"id"`
-	Exp   int64  `json:"exp"`
 }

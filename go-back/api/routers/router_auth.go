@@ -16,9 +16,10 @@ func NewRouterAuth(env *bootstrap.Env, timeout time.Duration, db *sqlx.DB, route
 
 	r := repositories.NewRepositoryAuth(db)
 	s := services.NewServiceAuth(r, env, timeout)
-	c := controllers.NewControllerAuth(s)
+	c := controllers.NewControllerAuth(s, env)
 
 	group.POST("/login", c.Login)
 	group.POST("/register", c.Register)
+	group.POST("/refresh", c.Refresh)
 
 }

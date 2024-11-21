@@ -1,9 +1,9 @@
 package services
 
 import (
-	"fmt"
 	"project-hackathon/bootstrap"
 	"project-hackathon/core/common"
+	"project-hackathon/core/domain"
 	"project-hackathon/utils"
 	"time"
 )
@@ -23,11 +23,6 @@ func (s *serviceAuth) Register(user *common.UserRegister) error {
 	return s.repo.Register(user)
 }
 
-func (s *serviceAuth) Login(userInput *common.UserLogin) (string, error) {
-	userInput.Password = utils.HashPassword(userInput.Password, s.env.SERVER_SECRET)
-	user, err := s.repo.CheckUserByEmailAndPassword(userInput)
-	if err != nil {
-		return "", fmt.Errorf("invalid email or password")
-	}
-	return utils.JWTGeneration(user, s.env.SERVER_SECRET)
+func (s *serviceAuth) CheckUserByEmailAndPassword(user *common.UserLogin) (domain.User, error) {
+	return s.repo.CheckUserByEmailAndPassword(user)
 }
