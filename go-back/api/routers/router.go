@@ -32,12 +32,35 @@ func InitLogger() *logrus.Logger {
 	return logger
 }
 
+// Ping
+//
+//	@Summary		Ping
+//	@Description	Ping to check if server is running
+//	@Tags			Test v2
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	responses.SuccessResponse
+//	@Failure		400	{object}	responses.ErrorResponse
+//	@Failure		500	{object}	responses.ErrorResponse
+//	@Router			/api/v2/ping [post]
 func Ping(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})
 }
 
+// ProtectedPing
+//
+//	@Summary		Protected Ping
+//	@Description	Protected Ping to check if token is valid
+//	@Tags			Test v2
+//	@Accept			json
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Success		200	{object}	responses.SuccessResponse
+//	@Failure		400	{object}	responses.ErrorResponse
+//	@Failure		500	{object}	responses.ErrorResponse
+//	@Router			/api/v2/pingProtected [post]
 func ProtectedPing(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message":   "protected pong",
@@ -59,7 +82,7 @@ func SetupRouter(env *bootstrap.Env, db *sqlx.DB, timeout time.Duration, gin *gi
 	router.POST("/pingProtected", middlewares.JwtAuthMiddleware(env.SERVER_SECRET), ProtectedPing)
 
 	if env.ENV_TYPE == "dev" {
-		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		gin.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
 	// Routers

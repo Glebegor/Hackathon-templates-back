@@ -1,0 +1,186 @@
+definitions:
+  common.Refresh:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  common.UserLogin:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  common.UserRegister:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  responses.ErrorResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  responses.SuccessResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v2/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login to account
+      parameters:
+      - description: User Login
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/common.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Login
+      tags:
+      - Auth v2
+  /api/v2/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh of the token
+      parameters:
+      - description: User refresh token
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/common.Refresh'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Refresh
+      tags:
+      - Auth v2
+  /api/v2/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register to account
+      parameters:
+      - description: User Register
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/common.UserRegister'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Register
+      tags:
+      - Auth v2
+  /api/v2/ping:
+    post:
+      consumes:
+      - application/json
+      description: Ping to check if server is running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      summary: Ping
+      tags:
+      - Test v2
+  /api/v2/pingProtected:
+    post:
+      consumes:
+      - application/json
+      description: Protected Ping to check if token is valid
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Protected Ping
+      tags:
+      - Test v2
+swagger: "2.0"

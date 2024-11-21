@@ -18,6 +18,17 @@ func NewControllerAuth(service common.ServiceAuth, env *bootstrap.Env) common.Co
 	return &ControllerAuth{service, env}
 }
 
+// Register
+//	@Summary		Register
+//	@Description	Register to account
+//	@Tags			Auth v2
+//	@Accept			json
+//	@Produce		json
+//	@Param			input	body		common.UserRegister	true	"User Register"
+//	@Success		200		{object}	responses.SuccessResponse
+//	@Failure		400		{object}	responses.ErrorResponse
+//	@Failure		500		{object}	responses.ErrorResponse
+//	@Router			/api/v2/auth/register [post]
 func (c *ControllerAuth) Register(ctx *gin.Context) {
 	var input common.UserRegister
 
@@ -35,6 +46,17 @@ func (c *ControllerAuth) Register(ctx *gin.Context) {
 	return
 }
 
+// Login
+//	@Summary		Login
+//	@Description	Login to account
+//	@Tags			Auth v2
+//	@Accept			json
+//	@Produce		json
+//	@Param			input	body		common.UserLogin	true	"User Login"
+//	@Success		200		{object}	responses.SuccessResponse
+//	@Failure		400		{object}	responses.ErrorResponse
+//	@Failure		500		{object}	responses.ErrorResponse
+//	@Router			/api/v2/auth/login [post]
 func (c *ControllerAuth) Login(ctx *gin.Context) {
 	var input common.UserLogin
 
@@ -58,6 +80,17 @@ func (c *ControllerAuth) Login(ctx *gin.Context) {
 	return
 }
 
+// Refresh
+//	@Summary		Refresh
+//	@Description	Refresh of the token
+//	@Tags			Auth v2
+//	@Accept			json
+//	@Produce		json
+//	@Param			input	body		common.Refresh	true	"User refresh token"
+//	@Success		200		{object}	responses.SuccessResponse
+//	@Failure		400		{object}	responses.ErrorResponse
+//	@Failure		500		{object}	responses.ErrorResponse
+//	@Router			/api/v2/auth/refresh [post]
 func (c *ControllerAuth) Refresh(ctx *gin.Context) {
 	var input common.Refresh
 

@@ -5,6 +5,8 @@ import (
 	"project-hackathon/bootstrap"
 	"time"
 
+	_ "project-hackathon/docs"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"

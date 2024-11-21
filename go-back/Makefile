@@ -74,5 +74,6 @@ docker-cluster-stop:
 # help commands
 open-logs:
 	cat ./logs/logs.txt
-
+docs-update:
+	swag init -g cmd/main.go
 

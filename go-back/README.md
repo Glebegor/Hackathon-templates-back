@@ -69,6 +69,7 @@ make build-run
 - open-logs: showing logs
 - docker-cluster-run: runs docker cluster
 - docker-cluster-stop: stops docker cluster
+- docs-update: updating of the swagger docs
 
 ## Database
 
@@ -143,3 +144,6 @@ Send request to check api.
 
 #### Ping protected
 Send request with header Authorization and "Bearer qwlej..." value to check protected routes.
+
+### Swagger docs
+Swagger docs to test api.
