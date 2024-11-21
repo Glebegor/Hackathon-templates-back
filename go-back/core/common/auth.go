@@ -9,9 +9,11 @@ import (
 type ServiceAuth interface {
 	Register(user *UserRegister) error
 	CheckUserByEmailAndPassword(user *UserLogin) (domain.User, error)
+	GetUserById(id string) (domain.User, error)
 }
 
 type RepositoryAuth interface {
+	GetUserById(id string) (domain.User, error)
 	Register(user *UserRegister) error
 	CheckUserByEmailAndPassword(user *UserLogin) (domain.User, error)
 }

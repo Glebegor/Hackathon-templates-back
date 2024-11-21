@@ -59,5 +59,34 @@ func (c *ControllerAuth) Login(ctx *gin.Context) {
 }
 
 func (c *ControllerAuth) Refresh(ctx *gin.Context) {
+	var input common.Refresh
 
+	if err := ctx.BindJSON(&input); err != nil {
+		ctx.JSON(400, responses.ErrorResponse{Message: err.Error(), Status: 400})
+		return
+	}
+
+	id, err := utils.GetIdFromRefreshToken(input.RefreshToken, c.env.SERVER_SECRET)
+	if err != nil {
+		ctx.JSON(400, responses.ErrorResponse{Message: err.Error(), Status: 400})
+		return
+	}
+
+	user, err := c.service.GetUserById(id)
+	if err != nil {
+		ctx.JSON(400, responses.ErrorResponse{Message: err.Error(), Status: 400})
+		return
+	}
+	accessToken, err := utils.CreateAccessToken(user, c.env.SERVER_SECRET)
+	if err != nil {
+		ctx.JSON(400, responses.ErrorResponse{Message: err.Error(), Status: 400})
+		return
+	}
+	refreshToken, err := utils.CreateRefreshToken(user, c.env.SERVER_SECRET)
+	if err != nil {
+		ctx.JSON(400, responses.ErrorResponse{Message: err.Error(), Status: 400})
+		return
+	}
+
+	ctx.JSON(200, responses.SuccessResponse{Message: "Token refreshed successfully", Status: 200, Data: gin.H{"access_token": accessToken, "refresh_token": refreshToken}})
 }

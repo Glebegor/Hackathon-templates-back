@@ -24,3 +24,8 @@ func (r *repositoryAuth) CheckUserByEmailAndPassword(user *common.UserLogin) (do
 	err := r.db.Get(&u, "SELECT id, name, email, password_hash FROM users WHERE email = $1 AND password_hash = $2", user.Email, user.Password)
 	return u, err
 }
+func (r *repositoryAuth) GetUserById(id string) (domain.User, error) {
+	var u domain.User
+	err := r.db.Get(&u, "SELECT id, name, email, password_hash FROM users WHERE id = $1", id)
+	return u, err
+}

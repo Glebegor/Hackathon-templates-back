@@ -34,6 +34,7 @@ migrate-down:
 	migrate -path ./schemas -database "postgres://$(DB_NAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_USER)?sslmode=$(DB_SSLMODE)" down
 
 build:
+	docker pull postgres:latest
 	docker image rm -f $(PROJECT_NAME) || true
 	docker build -t $(PROJECT_NAME) .
 run:
@@ -44,7 +45,7 @@ run:
 	make migrate-up
 
 	docker rm -f $(PROJECT_NAME) || true	
-	docker run --name=$(PROJECT_NAME) -e GO_CONTAINER="docker" --network $(PROJECT_DOCKER_NETWORK) --rm -p $(SERVER_DOCKER_PORT):$(SERVER_PORT) $(PROJECT_NAME)
+	docker run --name=$(PROJECT_NAME) -e GO_CONTAINER="docker" --network $(PROJECT_DOCKER_NETWORK) -d --rm -p $(SERVER_DOCKER_PORT):$(SERVER_PORT) $(PROJECT_NAME)
 build-run:
 	make build
 	make run

@@ -19,3 +19,7 @@ type JwtData struct {
 	UserName string `json:"user_name"`
 	Email    string `json:"email"`
 }
+
+type Refresh struct {
+	RefreshToken string `json:"refresh_token"`
+}

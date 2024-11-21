@@ -26,3 +26,7 @@ func (s *serviceAuth) Register(user *common.UserRegister) error {
 func (s *serviceAuth) CheckUserByEmailAndPassword(user *common.UserLogin) (domain.User, error) {
 	return s.repo.CheckUserByEmailAndPassword(user)
 }
+
+func (s *serviceAuth) GetUserById(id string) (domain.User, error) {
+	return s.repo.GetUserById(id)
+}
