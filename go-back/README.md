@@ -28,7 +28,7 @@ add logs.txt to path ```./logs/logs.txt```
 This commands can provide to you manual run of the application.
 
 ```bash
-make test-db-run
+make db-run
 
 make migrate-up
 
@@ -55,8 +55,6 @@ If you want to build and run you can run:
 make build-run
 ```
 
-
-
 ### Cluster
 
 ## Makefile
@@ -64,8 +62,8 @@ make build-run
 - build: docker build
 - run: docker run
 - build-run: docker build and run
-- test-db-run: runs creation of db
-- test-db-rm: runs deletion of db
+- db-run: runs creation of db
+- db-rm: runs deletion of db
 - migrate-up: creates migrations
 - migrate-down: deletes migrations
 - open-logs: showing logs

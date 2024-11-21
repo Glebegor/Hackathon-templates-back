@@ -23,10 +23,10 @@ wait-db-ready:
 		sleep 2; \
 	done
 
-test-db-run:
+db-run:
 	docker rm -f $(DB_NAME) || true
 	docker run --name=$(DB_NAME) --network $(PROJECT_DOCKER_NETWORK) -e POSTGRES_PASSWORD=$(DB_PASSWORD) -d --rm -p $(DB_PORT):5432 postgres
-test-db-rm:
+db-rm:
 	docker stop $(DB_NAME)
 
 migrate-up:
@@ -38,7 +38,7 @@ build:
 	docker build -t $(PROJECT_NAME) .
 run:
 	docker network inspect $(PROJECT_DOCKER_NETWORK) >/dev/null 2>&1 || docker network create $(PROJECT_DOCKER_NETWORK)
-	make test-db-run || true
+	make db-run || true
 	
 	make wait-db-ready
 	make migrate-up
@@ -48,6 +48,10 @@ run:
 build-run:
 	make build
 	make run
+stop:
+	docker rm -f $(PROJECT_NAME) || true
+	make db-rm || true
+
 
 open-logs:
 	cat ./logs/logs.txt
