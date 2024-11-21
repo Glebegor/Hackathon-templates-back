@@ -2,6 +2,8 @@
 
 ## Description
 
+Golang template of backend app for hackathouns.
+
 ## Requirements
 
 - makefile
@@ -10,6 +12,14 @@
 - yq
 
 add logs.txt to path ```./logs/logs.txt```
+
+## Changes before
+
+1. Change config.yml
+2. Change .env
+3. Check makefile and containers
+4. Check docker-compose
+5. Check database
 
 ## How to run
 
@@ -27,6 +37,7 @@ go run cmd/main.go
 
 ### Docker
 
+### Cluster
 
 ## Makefile
 
@@ -70,18 +81,25 @@ DB_PASSWORD="123321"
 config.yml
 
 ```yml
-Environment: "dev" # dev, release, test
+Environment: "dev"
+
+PROJECT:
+  NAME: "go-back-template-hackathon"
+  VERSION: "1.0.0"
+  DESCRIPTION: "Go back-end project"
+  DOCKER_NETWORK: "go-back-temp-hack-net"
 
 SERVER:
-  PORT: 3000
-  HOST: localhost
+  PORT: "3000"
+  HOST: "0.0.0.0"
+  DOCKER_PORT: "8070"
 
 DB:
-  HOST: localhost
-  PORT: 5432
-  NAME: go-back
-  USER: postgres
-  SSLMODE: disable
+  HOST: "localhost"
+  PORT: "5436"
+  NAME: "postgres"
+  USER: "postgres"
+  SSLMODE: "disable"
 ```
 
 On config dependence WHOLE application, soo, be carefull.

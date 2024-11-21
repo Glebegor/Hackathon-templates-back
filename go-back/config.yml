@@ -1,8 +1,15 @@
 Environment: "dev"
 
+PROJECT:
+  NAME: "go-back-template-hackathon"
+  VERSION: "1.0.0"
+  DESCRIPTION: "Go back-end project"
+  DOCKER_NETWORK: "go-back-temp-hack-net"
+
 SERVER:
   PORT: "3000"
-  HOST: "localhost"
+  HOST: "0.0.0.0"
+  DOCKER_PORT: "8070"
 
 DB:
   HOST: "localhost"
