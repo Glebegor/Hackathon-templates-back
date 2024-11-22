@@ -68,8 +68,21 @@ stop:
 	make db-rm || true
 
 # Run cluster
+wait-db-ready-cluster:
+	@until pg_isready -h postgres-hackathon -p 5432 -U postgres; do \
+		echo "Waiting for PostgreSQL to be ready..."; \
+		sleep 2; \
+	done
+
 docker-cluster-run:
+	docker build -t database-migration ./schemas 
+	docker build -t $(PROJECT_NAME) .
+	docker compose up 
 docker-cluster-stop:
+	docker compose down 
+inside-cluster-run:
+	make wait-db-ready-cluster
+	/main
 
 # help commands
 open-logs:

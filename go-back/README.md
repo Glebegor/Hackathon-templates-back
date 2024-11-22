@@ -57,6 +57,19 @@ make build-run
 
 ### Cluster
 
+Before the start change values of the docker-compose file.
+Run cluster:
+
+```bash
+make docker-cluster-run
+```
+
+Stop cluster:
+
+```bash
+make docker-cluster-stop
+```
+
 ## Makefile
 
 - build: docker build

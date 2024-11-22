@@ -1,0 +1,95 @@
+
+# create back by docker file
+# create databse postgres
+# add redis
+# add kibana
+# add elastic
+# add rabbitmq
+# add kafka
+
+services:
+    # redis:
+    #     image: redis
+    #     container_name: redis
+    #     ports:
+    #         - '6379:6379'
+    #     networks:
+    #         - mainnet
+    # elastic:
+    #     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    #     container_name: elasticsearch
+    #     environment:
+    #         - discovery.type=single-node
+    #     ports:
+    #         - '9200:9200'
+    #         - '9300:9300'
+    #     networks:
+    #         - mainnet
+    # kibana:
+    #     image: docker.elastic.co/kibana/kibana:7.10.1
+    #     container_name: kibana
+    #     ports:
+    #         - '5601:5601'
+    #     networks:
+    #         - mainnet
+    # rabbitmq:
+    #     image: rabbitmq:3-management
+    #     container_name: rabbitmq
+    #     ports:
+    #         - '5672:5672'
+    #         - '15672:15672'
+    #     networks:
+    #         - mainnet
+    # kafka:
+    #     image: confluentinc/cp-kafka:latest
+    #     container_name: kafka
+    #     ports:
+    #         - '9092:9092'
+    #     environment:
+    #         KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+    #         KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+    #         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    #     networks:
+    #         - mainnet
+           
+    database:
+        image: postgres
+        container_name: postgres-hackathon
+        ports:
+        - '5436:5432'
+        restart: "no"
+        environment:
+            - "POSTGRES_PASSWORD=123321"
+        networks:
+            - mainnet
+        
+    migrates:
+        image: database-migration 
+        container_name: database-migration
+        restart: "no"
+        depends_on:
+            - database
+        networks:
+            - mainnet
+    
+    backend:
+        image: go-back-template-hackathon
+        container_name: hackathon_backend
+        restart: "no"
+        ports:
+        - '8070:3000'
+        environment:
+            -   "GO_CONTAINER=cluster"
+        depends_on:
+            # - redis
+            # - elastic
+            # - kibana
+            # - rabbitmq
+            # - kafka
+            - migrates
+            - database
+        networks:
+            - mainnet
+
+networks:
+    mainnet:
