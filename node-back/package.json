@@ -1,0 +1,11 @@
+{
+  "name": "hackathon-template-node",
+  "version": "1.0.0",
+  "description": "This is a hackathon app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Glebegor",
+  "license": "MIT"
+}
