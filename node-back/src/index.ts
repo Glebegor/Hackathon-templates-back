@@ -1,10 +1,11 @@
-import express, { Request, Response } from 'express';
+// get args from npm start command
+const args = process.argv.slice(2);
 
-const app = express();
-const port = 3000;
+// In the base, you have 3 types of environments: dev, test, and prod
+const envType = args[0] || 'dev';
 
-app.use(express.json());
+import Application from './bootstrap/application';
+const app = new Application(envType);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+
+app.run();

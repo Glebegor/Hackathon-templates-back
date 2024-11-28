@@ -6,11 +6,13 @@
   "scripts": {
     "start": "npx ts-node src/index.ts",
     "build": "npx tsc",
-    "build-start": "npm run build && node dist/index.js"
+    "build-start": "npm run build && node dist/index.js",
+    "run-dev-db": "docker run --name hackathon-db -e POSTGRES_PASSWORD=123321 -p 5436:5432 -d postgres"
   },
   "author": "Glebegor",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.21.1"
   },
   "devDependencies": {
