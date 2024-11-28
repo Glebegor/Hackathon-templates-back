@@ -4,8 +4,19 @@
   "description": "This is a hackathon app",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "npx ts-node src/index.ts",
+    "build": "npx tsc",
+    "build-start": "npm run build && node dist/index.js"
   },
   "author": "Glebegor",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
 }
