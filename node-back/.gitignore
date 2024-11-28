@@ -1,0 +1,12 @@
+# Node.js dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment files
+*.env
+.dev.env
+.prod.env
+.test.env
+
