@@ -8,6 +8,6 @@
         "PORT": 5436,
         "USER": "postgres",
         "SSLMODE": "disable",
-        "DATABASE": "hackathon-db"
+        "DATABASE": "postgres"
     }
 }

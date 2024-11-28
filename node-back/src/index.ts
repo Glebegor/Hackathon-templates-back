@@ -7,5 +7,9 @@ const envType = args[0] || 'dev';
 import Application from './bootstrap/application';
 const app = new Application(envType);
 
-
-app.run();
+app.initialize()
+    .then(() => app.run())
+    .catch((error) => {
+        console.error('Error initializing application', error);
+        process.exit(1);
+    });

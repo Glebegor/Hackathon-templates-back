@@ -12,6 +12,8 @@ function getConfig(envType: string) {
     const config: IConfig = require(`../configs/json/config.${envType}.json`);
     config.DB.PASSWORD = process.env.DB_PASSWORD;
     config.SERVER.SECRET = process.env.SERVER_SECRET;
+    
+    process.env.DATABASE_URL = `postgresql://${config.DB.USER}:${config.DB.PASSWORD}@${config.DB.HOST}:${config.DB.PORT}/${config.DB.DATABASE}?schema=schema?sslmode=${config.DB.SSLMODE}`;
     return config;
 }
 

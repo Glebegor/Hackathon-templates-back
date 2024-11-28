@@ -9,6 +9,7 @@ interface IConfig {
         USER: string,
         PASSWORD: string | undefined,
         DATABASE: string
+        SSLMODE: string
     }
 }
 
