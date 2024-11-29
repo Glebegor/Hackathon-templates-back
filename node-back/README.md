@@ -42,6 +42,7 @@ Creates .env file with connection string + add type of the env ```npm run db-mig
 ## technologies
 
 - Express.JS
+- Postgresql
 - Prisma ORM
 - Node.js
 - Typescript
