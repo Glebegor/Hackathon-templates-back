@@ -11,8 +11,11 @@ class Application {
     
     constructor(envType: string) {
         this.config = getConfig(envType);
-        this.dbClient = new PrismaClient();        
+        this.dbClient = new PrismaClient();   
+             
         this.app = express();
+        this.app.use(express.json());
+
     }
 
     private pingDb(): Promise<string> {

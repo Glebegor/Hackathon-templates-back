@@ -11,6 +11,7 @@ Change and create envs which describes your project. Application need to have 3 
 ## Example
 
 ```env
-
+SERVER_SECRET="123321"
+DB_PASSWORD="123321"
 ```
 

@@ -1,12 +1,17 @@
+
+
+import { Router } from 'express';
+import Application from './bootstrap/application';
+import { newRouterMain } from './routes/routerMain';
+
+
 // get args from npm start command
 const args = process.argv.slice(2);
 
 // In the base, you have 3 types of environments: dev, test, and prod
 const envType = args[0] || 'dev';
 
-import { Router } from 'express';
-import Application from './bootstrap/application';
-import { newControllerMain } from './controllers/controllerMain';
+
 const app = new Application(envType);
 
 app.initialize()
@@ -15,9 +20,7 @@ app.initialize()
         process.exit(1);
     });
 
-// Generate main controller
-const controller: Router = newControllerMain(app.config, app.dbClient);
+const router: Router = newRouterMain(app.config, app.dbClient).run();
 
-app.app.use('/api/v1', controller);
-
+app.app.use('/api/v2', router);
 app.run();

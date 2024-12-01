@@ -7,15 +7,17 @@
     "start": "npx ts-node src/index.ts",
     "build": "npx tsc",
     "build-start": "npm run build && node dist/index.js",
-    "db-run-dev": "docker run --name hackathon-db -e POSTGRES_PASSWORD=123321 -p 5436:5432 -d postgres",
+    "db-run-dev": "docker run --name hackathon-db -e POSTGRES_PASSWORD=123321 --rm -p 5436:5432 -d postgres",
     "db-migrate": "npx ts-node src/bootstrap/setupenv.ts && npx prisma migrate dev --name init"
   },
   "author": "Glebegor",
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "^6.0.0",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

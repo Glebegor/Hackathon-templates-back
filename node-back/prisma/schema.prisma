@@ -13,9 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Users {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String
   password_hash String 
+
+  @@map("Users") // Ensures mapping to the case-sensitive table
 }

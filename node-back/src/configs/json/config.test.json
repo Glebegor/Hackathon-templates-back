@@ -1,3 +1,13 @@
 {
-    
+    "SERVER": {
+        "PORT": 3000,
+        "HOST": "localhost"
+    },
+    "DB": {
+        "HOST": "localhost",
+        "PORT": 5436,
+        "USER": "postgres",
+        "SSLMODE": "disable",
+        "DATABASE": "postgres"
+    }
 }
