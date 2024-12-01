@@ -7,7 +7,7 @@ import { hashPassword } from "../utils/passwordHash";
 import { ResponseSuccess } from "../core/commonApi/responseSuccess";
 import { ResponseError } from "../core/commonApi/responseError";
 import { IUser } from "../core/common/user";
-import { generateAccessToken, generateRefreshToken } from "../utils/jwtTokens";
+import { generateAccessToken, generateRefreshToken, verifyToken } from "../utils/jwtTokens";
 const bcrypt = require('bcrypt');
 
 class ControllerAuth {
@@ -69,7 +69,28 @@ class ControllerAuth {
     }
 
     private async refresh(req: any, res: any): Promise<void> {
-        // Implement refresh logic here
+        var input: IRefreshTokenRequest = req.body;
+
+        const decoded = verifyToken(input.refreshToken, this.config);
+
+        if (decoded.id == undefined) {
+            var responseError = new ResponseError(400, "Invalid token", {});
+            responseError.send(res);
+        }
+
+        var user: IUser = {
+            id: decoded.id,
+            username: decoded.name,
+            email: decoded.email,
+            passwordHash: "",
+        }
+
+        const accessToken = generateAccessToken(user, this.config);
+        const refreshToken = generateRefreshToken(user, this.config);
+
+        var responseSuccess = new ResponseSuccess(200, "Token refreshed", { accessToken, refreshToken });
+        responseSuccess.send(res);
+
     }
 
     public routes(router: any): void {

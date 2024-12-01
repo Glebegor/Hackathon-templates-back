@@ -11,7 +11,7 @@ function generateRefreshToken(user: IUser, config: IConfig) {
   return jwt.sign({ id: user.id }, config.SERVER.SECRET, { expiresIn: '3d' });
 }
 
-function verifyToken(token: string, type = 'access', config: IConfig) {
+function verifyToken(token: string, config: IConfig) {
     return jwt.verify(token, config.SERVER.SECRET);
 }
 
